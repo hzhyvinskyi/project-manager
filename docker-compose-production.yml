@@ -1,0 +1,17 @@
+version: "3.7"
+services:
+  nginx:
+    container_name: nginx
+    image: ${REGISTRY_ADDRESS}/nginx:${IMAGE_TAG}
+    restart: always
+    depends_on:
+      - php-fpm
+    ports:
+      - 8080:80
+  php-fpm:
+    container_name: php-fpm
+    image: ${REGISTRY_ADDRESS}/php-fpm:${IMAGE_TAG}
+    restart: always
+  php-cli:
+    container_name: php-cli
+    image: ${REGISTRY_ADDRESS}/php-cli:${IMAGE_TAG}
