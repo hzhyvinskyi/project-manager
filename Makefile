@@ -1,8 +1,15 @@
+up: docker-up
+init: docker-down-clear docker-pull docker-build docker-up app-init
+test: app-test
+
 docker-up:
 	docker-compose up -d
 
 docker-down:
 	docker-compose down --remove-orphans
+
+docker-down-clear:
+	docker-compose down -v --remove-orphans
 
 docker-pull:
 	docker-compose pull
@@ -10,8 +17,13 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-cli:
-	docker-compose run -rm php-cli php bin/app.php
+app-init: app-composer-install
+
+app-composer-install:
+	docker-compose run --rm php-cli composer install
+
+app-test:
+	docker-compose run --rm php-cli php bin/phpunit
 
 build-production:
 	docker build --pull --file=app/docker/production/nginx.docker --tag ${REGISTRY_ADDRESS}/nginx:${IMAGE_TAG} app
