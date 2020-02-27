@@ -23,7 +23,7 @@ app-composer-install:
 	docker-compose run --rm php-cli composer install
 
 app-test:
-	docker-compose run --rm php-cli php bin/phpunit
+	docker-compose run --rm php-cli php ./vendor/bin/phpunit
 
 build-production:
 	docker build --pull --file=app/docker/production/nginx.docker --tag ${REGISTRY_ADDRESS}/nginx:${IMAGE_TAG} app
